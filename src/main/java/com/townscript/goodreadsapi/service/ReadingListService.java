@@ -2,7 +2,6 @@ package com.townscript.goodreadsapi.service;
 
 import com.townscript.goodreadsapi.Repository.ReadingListRepository;
 import com.townscript.goodreadsapi.dto.ReadingListDto;
-import com.townscript.goodreadsapi.model.Book;
 import com.townscript.goodreadsapi.model.ReadingList;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,13 +15,13 @@ public class ReadingListService {
     private final ReadingListRepository readingListRepository;
 
     @Transactional
-    public void updateUserReadingList(Long userId,Long bookId){
-        readingListRepository.updateUserReadingList(userId,bookId);
+    public ReadingList updateUserReadingList(Long userId,Long bookId){
+        return readingListRepository.updateUserReadingList(userId,bookId);
     }
 
     @Transactional
-    public void deleteFromReadingList(Long userId,Long bookId){
-        readingListRepository.deleteReadingList(userId,bookId);
+    public ReadingList deleteFromReadingList(Long userId, Long bookId){
+        return readingListRepository.deleteReadingList(userId,bookId);
     }
 
     @Transactional

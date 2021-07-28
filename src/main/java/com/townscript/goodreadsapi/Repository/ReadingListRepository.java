@@ -1,6 +1,5 @@
 package com.townscript.goodreadsapi.Repository;
 
-import com.townscript.goodreadsapi.model.Book;
 import com.townscript.goodreadsapi.model.ReadingList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,13 +13,13 @@ public interface ReadingListRepository extends JpaRepository<ReadingList,Long> {
             "where book_id = :bookId and user_id = :userId",
             nativeQuery = true)
     @Modifying
-    void updateUserReadingList(@Param("userId") Long userId,@Param("bookId") Long bookId);
+    ReadingList updateUserReadingList(@Param("userId") Long userId,@Param("bookId") Long bookId);
 
     @Query(value = "delete from reading_list "+
             "where book_id = :bookId and user_id = :userId",
             nativeQuery = true)
     @Modifying
-    void deleteReadingList(@Param("userId") Long userId,@Param("bookId") Long bookId);
+    ReadingList deleteReadingList(@Param("userId") Long userId,@Param("bookId") Long bookId);
 
 
 }

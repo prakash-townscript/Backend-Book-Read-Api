@@ -1,15 +1,13 @@
 package com.townscript.goodreadsapi.controller;
 
-import com.townscript.goodreadsapi.dto.AuthenticationResponse;
 import com.townscript.goodreadsapi.dto.LoginRequest;
 import com.townscript.goodreadsapi.dto.RefreshTokenRequest;
 import com.townscript.goodreadsapi.dto.RegisterRequest;
 import com.townscript.goodreadsapi.service.AuthService;
 import com.townscript.goodreadsapi.service.RefreshTokenService;
+import com.townscript.goodreadsapi.util.ApiResponse;
+import com.townscript.goodreadsapi.util.ResponseBuilder;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,24 +21,47 @@ public class AuthController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<User> signup(@RequestBody RegisterRequest registerRequest){
-        return new ResponseEntity(authService.signUp(registerRequest), HttpStatus.OK);
+    public ApiResponse signup(@RequestBody RegisterRequest registerRequest){
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+        try{
+            Object data = authService.signUp(registerRequest);
+            return responseBuilder.createSuccessResponse(data);
+        }catch (Exception e){
+            return responseBuilder.createErrorResponse(e.toString());
+        }
     }
 
     @PostMapping("/login")
-    public AuthenticationResponse login(@RequestBody LoginRequest loginRequest){
-       return authService.login(loginRequest);
+    public ApiResponse login(@RequestBody LoginRequest loginRequest){
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+        try{
+            Object data =  authService.login(loginRequest);
+            return responseBuilder.createSuccessResponse(data);
+        }catch (Exception e){
+            return responseBuilder.createErrorResponse(e.toString());
+        }
     }
 
     @PostMapping("/refresh/token")
-    public AuthenticationResponse refreshTokens(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-        return authService.refreshToken(refreshTokenRequest);
+    public ApiResponse refreshTokens(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+        try{
+            Object data = authService.refreshToken(refreshTokenRequest);
+            return responseBuilder.createSuccessResponse(data);
+        }catch (Exception e){
+            return responseBuilder.createErrorResponse(e.toString());
+        }
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-        refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
-        return ResponseEntity.status(HttpStatus.OK).body("Refresh Token Deleted Successfully!!");
+    public ApiResponse logout(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+        ResponseBuilder responseBuilder = new ResponseBuilder();
+        try{
+            Object data = refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
+            return responseBuilder.createSuccessResponse(data);
+        }catch (Exception e){
+            return responseBuilder.createErrorResponse(e.toString());
+        }
     }
 
 }

@@ -29,7 +29,7 @@ public class RefreshTokenService {
                 .orElseThrow(() -> new SpringCustomException("Invalid refresh Token"));
     }
 
-    public void deleteRefreshToken(String token) {
-        refreshTokenRepository.deleteByToken(token);
+    public Object deleteRefreshToken(String token) {
+        return refreshTokenRepository.deleteByToken(token);
     }
 }
